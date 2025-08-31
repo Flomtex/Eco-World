@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://caebtmm6cxqyw"]
+
+[ext_resource type="Texture2D" uid="uid://cw620h8hr61wc" path="res://icon.svg" id="1_bo24h"]
+[ext_resource type="Script" uid="uid://cght68vjadtcd" path="res://Scenes/Creature/Creature.gd" id="1_n6h8b"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n6h8b"]
+albedo_texture = ExtResource("1_bo24h")
+uv1_scale = Vector3(0.75, 0.75, 0.75)
+uv1_offset = Vector3(0.5, 0.5, 0.5)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_esvoh"]
+material = SubResource("StandardMaterial3D_n6h8b")
+
+[node name="Creature" type="Node3D"]
+script = ExtResource("1_n6h8b")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_esvoh")

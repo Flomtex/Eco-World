@@ -1,0 +1,45 @@
+[gd_resource type="MeshLibrary" load_steps=8 format=3 uid="uid://o5470u243auh"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_moxga"]
+albedo_color = Color(0.509804, 0.509804, 0.509804, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_g5o4h"]
+material = SubResource("StandardMaterial3D_moxga")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_lkl82"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_o8l27"]
+albedo_color = Color(0.117647, 0.627451, 0.235294, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_b5u5s"]
+material = SubResource("StandardMaterial3D_o8l27")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6bx8c"]
+transparency = 1
+albedo_color = Color(0.156863, 0.431373, 0.784314, 0.7)
+
+[sub_resource type="BoxMesh" id="BoxMesh_v07og"]
+material = SubResource("StandardMaterial3D_6bx8c")
+
+[resource]
+item/0/name = "Rock"
+item/0/mesh = SubResource("BoxMesh_g5o4h")
+item/0/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/mesh_cast_shadow = 1
+item/0/shapes = [SubResource("BoxShape3D_lkl82"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)]
+item/0/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/0/navigation_layers = 1
+item/1/name = "Grass"
+item/1/mesh = SubResource("BoxMesh_b5u5s")
+item/1/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/mesh_cast_shadow = 1
+item/1/shapes = [SubResource("BoxShape3D_lkl82"), Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)]
+item/1/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/1/navigation_layers = 1
+item/2/name = "Water"
+item/2/mesh = SubResource("BoxMesh_v07og")
+item/2/mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/2/mesh_cast_shadow = 1
+item/2/shapes = []
+item/2/navigation_mesh_transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+item/2/navigation_layers = 1
