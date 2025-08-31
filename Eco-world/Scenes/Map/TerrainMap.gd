@@ -5,6 +5,7 @@ class_name TerrainMap
 @export var ROCK_ID: int  = 0
 @export var GRASS_ID: int = 1
 @export var WATER_ID: int = 2
+@export var rock_item_ids: PackedInt32Array = [0]
 
 enum Tile { ROCK, GRASS, WATER }
 
@@ -69,3 +70,27 @@ func get_type_at_world(world_pos: Vector3) -> int:
 
 func is_walkable_world(world_pos: Vector3) -> bool:
 	return is_walkable_cell(world_to_cell(world_pos))
+
+
+# If this script is on GridMap, `self` is already a GridMap.
+# If you ever move it, this keeps calls working.
+func _grid() -> GridMap:
+	return self as GridMap
+
+func is_rock_cell(cell: Vector3i) -> bool:
+	var id := _grid().get_cell_item(cell)
+	return id in rock_item_ids
+
+func pick_spawn_cell_near_rock(rng: RandomNumberGenerator, max_tries: int = 200) -> Variant:
+	# Returns a Vector3i or null if none found.
+	var used := _grid().get_used_cells()
+	if used.is_empty():
+		return null
+
+	for i in max_tries:
+		var c: Vector3i = used[rng.randi_range(0, used.size() - 1)]
+		if is_walkable_cell(c) and not is_rock_cell(c):
+			for n in neighbors4(c):
+				if is_rock_cell(n):
+					return c
+	return null
