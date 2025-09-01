@@ -83,3 +83,12 @@ Creatures and plants live on a grid. All grid logic flows through `Scenes/Map/Te
 ## License
 TBD (MIT suggested for code; check licenses for any external assets).
 
+
+
+## Live file links (for ChatGPT viewing)
+- [Creature.gd (glue)](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Scenes/Creature/Creature.gd)
+- [CreatureMover.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Scenes/Creature/CreatureMover.gd)
+- [CreatureBrainWander.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Scenes/Creature/Brains/CreatureBrainWander.gd)
+- [TerrainMap.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Scenes/Map/TerrainMap.gd)
+
+**Full code map:** see [CODEMAP.md](./CODEMAP.md) for raw links to every script/scene.
