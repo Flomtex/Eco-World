@@ -86,9 +86,27 @@ TBD (MIT suggested for code; check licenses for any external assets).
 
 
 ## Live file links (for ChatGPT viewing)
-- [Creature.gd (glue)](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Scenes/Creature/Creature.gd)
-- [CreatureMover.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Scenes/Creature/CreatureMover.gd)
-- [CreatureBrainWander.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Scenes/Creature/Brains/CreatureBrainWander.gd)
-- [TerrainMap.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Scenes/Map/TerrainMap.gd)
+<!-- CODEMAP:START -->
+## Full code map
+_Auto-generated list of raw links._
 
-**Full code map:** see [CODEMAP.md](./CODEMAP.md) for raw links to every script/scene.
+# CODEMAP
+All raw links for ChatGPT viewing.
+
+- [Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd)
+- [Eco-world/Scenes/Creature/Creature.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Creature.gd)
+- [Eco-world/Scenes/Creature/Creature.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Creature.tscn)
+- [Eco-world/Scenes/Creature/CreatureMover.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/CreatureMover.gd)
+- [Eco-world/Scenes/Main/CameraRig.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/CameraRig.gd)
+- [Eco-world/Scenes/Main/Main.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/Main.tscn)
+- [Eco-world/Scenes/Main/PlantSpawner.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/PlantSpawner.gd)
+- [Eco-world/Scenes/Map/EcoMap3D.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/EcoMap3D.tscn)
+- [Eco-world/Scenes/Map/EcoMap3d.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/EcoMap3d.gd)
+- [Eco-world/Scenes/Map/TerrainMap.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/TerrainMap.gd)
+- [Eco-world/Scenes/Plant/Plant.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Plant/Plant.gd)
+- [Eco-world/Scenes/Plant/Plant.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Plant/Plant.tscn)
+- [Eco-world/Tools/GenerateEcoGrid.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/GenerateEcoGrid.gd)
+- [Eco-world/Tools/MakeEcoMeshLibrary.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/MakeEcoMeshLibrary.gd)
+
+<!-- CODEMAP:END -->
+
