@@ -1,16 +1,33 @@
 extends GridMap
 class_name TerrainMap
 
+
+enum Tile { ROCK, GRASS, WATER }
+
 # Match these to your MeshLibrary item IDs
 @export var ROCK_ID: int  = 0
 @export var GRASS_ID: int = 1
 @export var WATER_ID: int = 2
 @export var rock_item_ids: PackedInt32Array = [0]
 
-enum Tile { ROCK, GRASS, WATER }
+var _used_cells := {} # Set[Vector3i]
+var _water_cells := {} # Optional
+var _ground_y_by_xz := {} # Dict[Vector2i -> int] topmost Y per (x,z)
+
 
 func _ready() -> void:
-	assert(mesh_library != null, "Assign your MeshLibrary (EcoTiles.tres) to this GridMap.")
+	_used_cells.clear()
+	_water_cells.clear()
+	_ground_y_by_xz.clear()
+	for c in get_used_cells():
+		_used_cells[c] = true
+		var tid := get_cell_item(c)
+		if tid == 2:	# WATER id (adjust if yours differ)
+			_water_cells[c] = true
+		var key := Vector2i(c.x, c.z)
+		if not _ground_y_by_xz.has(key) or c.y > int(_ground_y_by_xz[key]):
+			_ground_y_by_xz[key] = c.y
+	print("[Terrain] used_cells=", _used_cells.size(), " water_cells=", _water_cells.size())
 
 # ---- ID ↔ Tile ----
 func id_to_tile(id: int) -> int:
@@ -38,10 +55,13 @@ func get_cell_type(cell: Vector3i) -> int:
 		# Treat empty/out-of-bounds as ordinary ground for now
 		return Tile.ROCK
 	return id_to_tile(id)
-
+	
 func is_walkable_cell(cell: Vector3i) -> bool:
-	# Rule: water is not walkable; rock/grass are walkable
-	return get_cell_type(cell) != Tile.WATER
+	if not is_in_bounds(cell):
+		return false
+	var tid := get_cell_item(cell)
+	# walkable = rock(0) or grass(1); water(2) blocked
+	return tid == 0 or tid == 1
 
 func provides_water(cell: Vector3i) -> bool:
 	return get_cell_type(cell) == Tile.WATER
@@ -56,22 +76,36 @@ func neighbors4(cell: Vector3i) -> Array:
 	]
 
 # ---- World ↔ Cell ----
-func world_to_cell(world_pos: Vector3) -> Vector3i:
-	var local: Vector3 = to_local(world_pos)
+func world_to_cell(world: Vector3) -> Vector3i:
+	var local: Vector3 = to_local(world)	# GridMap’s map/local ops use local space
 	return local_to_map(local)
 
 func cell_to_world(cell: Vector3i) -> Vector3:
 	var local: Vector3 = map_to_local(cell)
 	return to_global(local)
 
+func is_in_bounds(cell: Vector3i) -> bool:
+	return _used_cells.has(cell)
+
+func ground_cell_from_cell(cell: Vector3i) -> Vector3i:
+	var key := Vector2i(cell.x, cell.z)
+	if _ground_y_by_xz.has(key):
+		return Vector3i(cell.x, int(_ground_y_by_xz[key]), cell.z)
+	return cell
+
+func world_to_ground_cell(world: Vector3) -> Vector3i:
+	var raw := world_to_cell(world)
+	return ground_cell_from_cell(raw)
+
 # Convenience: queries at world-space positions
 func get_type_at_world(world_pos: Vector3) -> int:
 	return get_cell_type(world_to_cell(world_pos))
 
-func is_walkable_world(world_pos: Vector3) -> bool:
-	return is_walkable_cell(world_to_cell(world_pos))
 
-
+func is_walkable_world(world: Vector3) -> bool:
+	var ground := world_to_ground_cell(world)
+	return is_walkable_cell(ground)
+	
 # If this script is on GridMap, `self` is already a GridMap.
 # If you ever move it, this keeps calls working.
 func _grid() -> GridMap:
