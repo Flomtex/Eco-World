@@ -1,7 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://caebtmm6cxqyw"]
+[gd_scene load_steps=7 format=3 uid="uid://caebtmm6cxqyw"]
 
 [ext_resource type="Texture2D" uid="uid://cw620h8hr61wc" path="res://icon.svg" id="1_bo24h"]
 [ext_resource type="Script" uid="uid://cght68vjadtcd" path="res://Scenes/Creature/Creature.gd" id="1_n6h8b"]
+[ext_resource type="Script" uid="uid://dnqxm57ewx5uj" path="res://Scenes/Creature/CreatureMover.gd" id="3_esvoh"]
+[ext_resource type="Script" uid="uid://bthulu4hiqkjo" path="res://Scenes/Creature/Brains/CreatureBrainWander.gd" id="4_murg0"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n6h8b"]
 albedo_texture = ExtResource("1_bo24h")
@@ -17,3 +19,9 @@ script = ExtResource("1_n6h8b")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_esvoh")
+
+[node name="Mover" type="Node" parent="."]
+script = ExtResource("3_esvoh")
+
+[node name="BrainWander" type="Node" parent="."]
+script = ExtResource("4_murg0")
