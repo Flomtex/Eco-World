@@ -98,8 +98,12 @@ func world_to_ground_cell(world: Vector3) -> Vector3i:
 	return ground_cell_from_cell(raw)
 
 # Convenience: queries at world-space positions
-func get_type_at_world(world_pos: Vector3) -> int:
-	return get_cell_type(world_to_cell(world_pos))
+func get_type_at_world(world: Vector3) -> int:
+	var cell: Vector3i = world_to_ground_cell(world)
+	if not is_in_bounds(cell):
+		return -1
+	return get_cell_item(cell)
+
 
 
 func is_walkable_world(world: Vector3) -> bool:

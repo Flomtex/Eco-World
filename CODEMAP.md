@@ -1,7 +1,7 @@
 # CODEMAP
 All raw links for ChatGPT viewing.
 
-- [Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd)
+<!-- - [Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd)
 - [Eco-world/Scenes/Creature/Creature.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Creature.gd)
 - [Eco-world/Scenes/Creature/Creature.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Creature.tscn)
 - [Eco-world/Scenes/Creature/CreatureMover.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/CreatureMover.gd)
@@ -14,4 +14,4 @@ All raw links for ChatGPT viewing.
 - [Eco-world/Scenes/Plant/Plant.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Plant/Plant.gd)
 - [Eco-world/Scenes/Plant/Plant.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Plant/Plant.tscn)
 - [Eco-world/Tools/GenerateEcoGrid.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/GenerateEcoGrid.gd)
-- [Eco-world/Tools/MakeEcoMeshLibrary.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/MakeEcoMeshLibrary.gd)
+- [Eco-world/Tools/MakeEcoMeshLibrary.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/MakeEcoMeshLibrary.gd) -->

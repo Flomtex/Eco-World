@@ -6,6 +6,7 @@ class_name CreatureMover
 @export var turn_speed: float = 4.0
 @export var lookahead: float = 0.75
 @export var sample_directions: int = 16
+@export var seed: int = -1
 
 @onready var actor: Node3D = get_parent() as Node3D
 @onready var terrain: Node = get_tree().get_first_node_in_group("terrain")
@@ -13,8 +14,12 @@ class_name CreatureMover
 var heading: Vector3 = Vector3.FORWARD
 var rng := RandomNumberGenerator.new()
 
+
 func _ready() -> void:
-	rng.randomize()
+	if seed >= 0:
+		rng.seed = seed
+	else:
+		rng.randomize()
 
 func setup_initial_heading() -> void:
 	var yaw0 := rng.randf_range(0.0, TAU)

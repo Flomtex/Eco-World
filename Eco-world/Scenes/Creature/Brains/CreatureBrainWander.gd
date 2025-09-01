@@ -1,5 +1,8 @@
 extends Node
+
 class_name CreatureBrainWander
+
+signal state_changed(state: int)
 
 @export var walk_time_range: Vector2 = Vector2(1.3, 3.2)
 @export var idle_time_range: Vector2 = Vector2(0.6, 1.8)
@@ -7,6 +10,7 @@ class_name CreatureBrainWander
 @export var turn_in_place_rate: float = 90.0 * PI / 180.0
 @export var jitter_deg: float = 12.0
 @export var jitter_interval_range: Vector2 = Vector2(0.8, 2.0)
+@export var seed: int = -1
 
 enum MoveState { WALK, IDLE, TURN }
 var state: int = MoveState.WALK
@@ -15,8 +19,13 @@ var turn_dir: float = 1.0
 var jitter_time_left: float = 0.0
 var rng := RandomNumberGenerator.new()
 
+
 func _ready() -> void:
-	rng.randomize()
+	if seed >= 0:
+		rng.seed = seed
+	else:
+		rng.randomize()
+
 
 func start() -> void:
 	_set_state(MoveState.WALK)
@@ -55,6 +64,7 @@ func update(delta: float, current_heading: Vector3) -> Dictionary:
 
 func _set_state(s: int) -> void:
 	state = s
+	emit_signal("state_changed", state)
 	match state:
 		MoveState.WALK:
 			state_time_left = rng.randf_range(walk_time_range.x, walk_time_range.y)
@@ -67,6 +77,6 @@ func _set_state(s: int) -> void:
 			turn_dir = -1.0 if rng.randf() < 0.5 else 1.0
 			var tag := "L" if turn_dir < 0.0 else "R"
 			print("[Brain] → TURN(", tag, ") for ", state_time_left, "s")
-
+			
 func _reset_jitter_timer() -> void:
 	jitter_time_left = rng.randf_range(jitter_interval_range.x, jitter_interval_range.y)
