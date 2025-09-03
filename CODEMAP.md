@@ -1,3 +1,5 @@
+<!-- CODEMAP:START
+
 https://raw.githubusercontent.com/Flomtex/Eco-World/main/.gitattributes
 https://raw.githubusercontent.com/Flomtex/Eco-World/main/CODEMAP.md
 https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/.editorconfig
@@ -52,3 +54,6 @@ https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/lib/EcoTiles.
 https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/project.godot
 https://raw.githubusercontent.com/Flomtex/Eco-World/main/MOST_IMPORTANT_INFORMATION+MUST_USE!!.md
 https://raw.githubusercontent.com/Flomtex/Eco-World/main/README.md
+
+< CODEMAP:END -->
+

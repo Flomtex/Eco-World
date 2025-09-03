@@ -86,7 +86,7 @@ TBD (MIT suggested for code; check licenses for any external assets).
 
 
 ## Live file links (for ChatGPT viewing)
-<!-- CODEMAP:START -->
+<!-- CODEMAP:START
 ## Full code map
 _Auto-generated list of raw links._
 
@@ -147,5 +147,5 @@ https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/project.godot
 https://raw.githubusercontent.com/Flomtex/Eco-World/main/MOST_IMPORTANT_INFORMATION+MUST_USE!!.md
 https://raw.githubusercontent.com/Flomtex/Eco-World/main/README.md
 
-<!-- CODEMAP:END -->
+< CODEMAP:END -->
 
