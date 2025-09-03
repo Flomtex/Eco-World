@@ -68,6 +68,7 @@ script = ExtResource("3_esvoh")
 [node name="BrainWander" type="Node" parent="."]
 script = ExtResource("4_murg0")
 sense_area_path = NodePath("../SenseArea")
+debug_draw_path = true
 
 [node name="DebugLabel" type="Label" parent="."]
 visible = false
@@ -80,6 +81,8 @@ collision_layer = 0
 collision_mask = 128
 monitorable = false
 script = ExtResource("6_vxx8y")
+fov_deg = 220.0
+debug = true
 head_path = NodePath("../Body/Head")
 
 [node name="SenseAreaCollision" type="CollisionShape3D" parent="SenseArea"]
