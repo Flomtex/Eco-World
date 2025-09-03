@@ -1,34 +1,88 @@
-[gd_scene load_steps=8 format=3 uid="uid://caebtmm6cxqyw"]
+[gd_scene load_steps=15 format=3 uid="uid://caebtmm6cxqyw"]
 
 [ext_resource type="Texture2D" uid="uid://cw620h8hr61wc" path="res://icon.svg" id="1_bo24h"]
 [ext_resource type="Script" uid="uid://cght68vjadtcd" path="res://Scenes/Creature/Creature.gd" id="1_n6h8b"]
 [ext_resource type="Script" uid="uid://dnqxm57ewx5uj" path="res://Scenes/Creature/CreatureMover.gd" id="3_esvoh"]
 [ext_resource type="Script" uid="uid://bthulu4hiqkjo" path="res://Scenes/Creature/Brains/CreatureBrainWander.gd" id="4_murg0"]
 [ext_resource type="Script" uid="uid://ctlwle14vyi06" path="res://Scenes/Creature/CreatureDebug.gd" id="5_rp73c"]
+[ext_resource type="Script" uid="uid://bfl8qqrs6btkc" path="res://Scenes/Creature/CreatureSense.gd" id="6_vxx8y"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rp73c"]
+albedo_texture = ExtResource("1_bo24h")
+uv1_scale = Vector3(1, 1, 3)
+uv1_offset = Vector3(0.5, 0.5, 1)
+uv1_triplanar = true
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_n6h8b"]
 albedo_texture = ExtResource("1_bo24h")
-uv1_scale = Vector3(0.75, 0.75, 0.75)
+emission_energy_multiplier = 9.0
+uv1_scale = Vector3(1, 1, 0.001)
 uv1_offset = Vector3(0.5, 0.5, 0.5)
 uv1_triplanar = true
+texture_filter = 4
 
 [sub_resource type="BoxMesh" id="BoxMesh_esvoh"]
+lightmap_size_hint = Vector2i(14, 21)
 material = SubResource("StandardMaterial3D_n6h8b")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vxx8y"]
+albedo_texture = ExtResource("1_bo24h")
+uv1_scale = Vector3(2, 1, 1)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_bo27e"]
+lightmap_size_hint = Vector2i(10, 13)
+size = Vector3(0.25, 0.25, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bo27e"]
+albedo_texture = ExtResource("1_bo24h")
+
+[sub_resource type="SphereMesh" id="SphereMesh_bvg1p"]
+material = SubResource("StandardMaterial3D_bo27e")
+radius = 0.3
+height = 0.6
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_rp73c"]
+radius = 10.0
 
 [node name="Creature" type="Node3D"]
 script = ExtResource("1_n6h8b")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="Body" type="MeshInstance3D" parent="."]
+material_override = SubResource("StandardMaterial3D_rp73c")
+gi_mode = 2
 mesh = SubResource("BoxMesh_esvoh")
+
+[node name="Tail" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1.82583, 0, 0, 0, 4.25939, 0.000705443, 0, -0.0169494, 0.17728, 0, 0.331135, 0.494321)
+material_override = SubResource("StandardMaterial3D_vxx8y")
+mesh = SubResource("BoxMesh_bo27e")
+
+[node name="Head" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.658288, -0.618023)
+mesh = SubResource("SphereMesh_bvg1p")
 
 [node name="Mover" type="Node" parent="."]
 script = ExtResource("3_esvoh")
 
 [node name="BrainWander" type="Node" parent="."]
 script = ExtResource("4_murg0")
+sense_area_path = NodePath("../SenseArea")
 
 [node name="DebugLabel" type="Label" parent="."]
 visible = false
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("5_rp73c")
+
+[node name="SenseArea" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 128
+monitorable = false
+script = ExtResource("6_vxx8y")
+head_path = NodePath("../Body/Head")
+
+[node name="SenseAreaCollision" type="CollisionShape3D" parent="SenseArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -0.7)
+shape = SubResource("SphereShape3D_rp73c")
+debug_color = Color(1.55944e-05, 0.803255, 0.936856, 1)
