@@ -11,7 +11,7 @@ static func plan(start: Vector3i, goal: Vector3i, terrain: TerrainMap, max_steps
 	var open: Array[Vector3i] = [start]
 	var came_from: Dictionary = {}
 	var g: Dictionary = {start: 0}
-	var f: Dictionary = {start: _h(start, goal)}
+	var f: Dictionary = {start: _h_octile(start, goal)}
 	var closed: Dictionary = {}
 	var steps := 0
 
@@ -38,22 +38,49 @@ static func plan(start: Vector3i, goal: Vector3i, terrain: TerrainMap, max_steps
 		open.erase(current)
 		closed[current] = true
 
-		for n in terrain.neighbors4(current):
+		for step in _neighbors8(current, terrain): # orth+diag; no corner-cutting
+			var n: Vector3i = step.cell
+			var step_cost: int = step.cost   # 10 orth, 14 diag
 			if not terrain.is_walkable_cell(n):
 				continue
 			if closed.has(n):
 				continue
 
-			var tentative_g: int = int(g[current]) + 1
+			var tentative_g: int = int(g[current]) + step_cost
 			if not g.has(n) or tentative_g < int(g[n]):
 				came_from[n] = current
 				g[n] = tentative_g
-				f[n] = tentative_g + _h(n, goal)
+				f[n] = tentative_g + _h_octile(n, goal)
 				if not open.has(n):
 					open.append(n)
+
+
 
 	return []  # no path
 
 static func _h(a: Vector3i, b: Vector3i) -> int:
 	# Manhattan distance (works with 4-neighbour grid)
 	return abs(a.x - b.x) + abs(a.y - b.y) + abs(a.z - b.z)
+
+static func _neighbors8(c: Vector3i, terrain: TerrainMap) -> Array:
+	var out: Array = []
+	# Orthogonal (cost 10)
+	const ORTH = [Vector3i(1,0,0), Vector3i(-1,0,0), Vector3i(0,0,1), Vector3i(0,0,-1)]
+	for d in ORTH:
+		out.append({"cell": c + d, "cost": 10})
+
+	# Diagonals (cost 14), no corner-cutting: both touching orth cells must be walkable
+	const DIAG = [Vector3i(1,0,1), Vector3i(1,0,-1), Vector3i(-1,0,1), Vector3i(-1,0,-1)]
+	for d in DIAG:
+		var n = c + d
+		var a := Vector3i(c.x + d.x, c.y, c.z)   # orth X neighbour
+		var b := Vector3i(c.x, c.y, c.z + d.z)   # orth Z neighbour
+		if terrain.is_walkable_cell(a) and terrain.is_walkable_cell(b):
+			out.append({"cell": n, "cost": 14})
+	return out
+
+static func _h_octile(a: Vector3i, b: Vector3i) -> int:
+	var dx: int = abs(a.x - b.x)
+	var dz: int = abs(a.z - b.z)
+	# Octile distance with 10/14 costs
+	return 10 * (dx + dz) + (14 - 20) * min(dx, dz)

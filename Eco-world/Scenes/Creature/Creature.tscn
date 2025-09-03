@@ -68,6 +68,7 @@ script = ExtResource("3_esvoh")
 [node name="BrainWander" type="Node" parent="."]
 script = ExtResource("4_murg0")
 sense_area_path = NodePath("../SenseArea")
+debug_draw_path = true
 
 [node name="DebugLabel" type="Label" parent="."]
 visible = false
