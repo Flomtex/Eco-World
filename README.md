@@ -1,9 +1,9 @@
 # Eco-World (Godot 4.4.1)
 
-A small, deterministic-friendly ecosystem simulation built in **Godot 4.4.1 (Forward+)**.  
+A small, deterministic-friendly ecosystem simulation built in **Godot 4.4.1 (Forward+)**.
 Creatures and plants live on a grid. All grid logic flows through `Scenes/Map/TerrainMap.gd` (no direct GridMap poking from agents). We add features as tiny “vertical slices” (e.g., “thirst → find water → drink”), one at a time.
 
-**Docs:** Official Godot GDScript — https://docs.godotengine.org/en/stable/  
+**Docs:** Official Godot GDScript — https://docs.godotengine.org/en/stable/
 **Repo:** https://github.com/Flomtex/Eco-World
 
 ---
@@ -92,21 +92,60 @@ _Auto-generated list of raw links._
 
 # CODEMAP
 All raw links for ChatGPT viewing.
-
-<!-- - [Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd)
-- [Eco-world/Scenes/Creature/Creature.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Creature.gd)
-- [Eco-world/Scenes/Creature/Creature.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Creature.tscn)
-- [Eco-world/Scenes/Creature/CreatureMover.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/CreatureMover.gd)
-- [Eco-world/Scenes/Main/CameraRig.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/CameraRig.gd)
-- [Eco-world/Scenes/Main/Main.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/Main.tscn)
-- [Eco-world/Scenes/Main/PlantSpawner.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/PlantSpawner.gd)
-- [Eco-world/Scenes/Map/EcoMap3D.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/EcoMap3D.tscn)
-- [Eco-world/Scenes/Map/EcoMap3d.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/EcoMap3d.gd)
-- [Eco-world/Scenes/Map/TerrainMap.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/TerrainMap.gd)
-- [Eco-world/Scenes/Plant/Plant.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Plant/Plant.gd)
-- [Eco-world/Scenes/Plant/Plant.tscn](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Plant/Plant.tscn)
-- [Eco-world/Tools/GenerateEcoGrid.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/GenerateEcoGrid.gd)
-- [Eco-world/Tools/MakeEcoMeshLibrary.gd](https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/MakeEcoMeshLibrary.gd) -->
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/.gitattributes
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/CODEMAP.md
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/.editorconfig
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/.gitattributes
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/.gitignore
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/Plant_1.bin
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/Bush_1_A_Color1.bin
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/Bush_1_B_Color1.bin
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/Bush_1_C_Color1.bin
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/Bush_1_D_Color1.bin
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/Bush_1_E_Color1.bin
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/Bush_1_F_Color1.bin
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/Bush_1_G_Color1.bin
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/simple_small_plant_fr_0831023843_texture.mtl
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/simple_small_plant_fr_0831023843_texture.obj
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/simple_small_plant_fr_0831023843_texture.obj.import
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/simple_small_plant_fr_0831023843_texture.png
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Assets/Models/SimplePlant/simple_small_plant_fr_0831023843_texture.png.import
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Brains/CreatureBrainWander.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Creature.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Creature.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/Creature.tscn
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/CreatureDebug.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/CreatureDebug.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/CreatureMover.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/CreatureMover.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/CreatureSense.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/CreatureSense.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/GridPath.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Creature/GridPath.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/CameraRig.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/CameraRig.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/Main.tscn
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/PlantSpawner.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Main/PlantSpawner.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/EcoMap3D.tscn
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/EcoMap3d.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/EcoMap3d.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/TerrainMap.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Map/TerrainMap.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Plant/Plant.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Plant/Plant.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Scenes/Plant/Plant.tscn
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/GenerateEcoGrid.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/GenerateEcoGrid.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/MakeEcoMeshLibrary.gd
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/Tools/MakeEcoMeshLibrary.gd.uid
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/icon.svg
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/icon.svg.import
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/lib/EcoTiles.tres
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/Eco-world/project.godot
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/MOST_IMPORTANT_INFORMATION+MUST_USE!!.md
+https://raw.githubusercontent.com/Flomtex/Eco-World/main/README.md
 
 <!-- CODEMAP:END -->
 
