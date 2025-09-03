@@ -81,3 +81,8 @@ func get_visible_target(from_node: Node3D) -> Plant:
 			best = p
 
 	return best
+
+func is_in_range(p: Plant) -> bool:
+	if p == null or not is_instance_valid(p):
+		return false
+	return in_range.has(p)

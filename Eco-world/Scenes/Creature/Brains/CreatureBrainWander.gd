@@ -3,7 +3,7 @@ extends Node
 class_name CreatureBrainWander
 
 signal state_changed(state: int)
-const GridPath = preload("res://Scenes/Creature/GridPath.gd")
+
 
 @onready var sensor: Area3D = (get_node(sense_area_path) as Area3D) if sense_area_path != NodePath() else null
 @onready var terrain: TerrainMap = get_tree().get_first_node_in_group("terrain") as TerrainMap
@@ -21,9 +21,10 @@ const GridPath = preload("res://Scenes/Creature/GridPath.gd")
 @export_node_path("Area3D") var sense_area_path: NodePath
 @export var eat_on_adjacent_cell: bool = true
 
-@export var replan_cooldown: float = 0.3
+@export var replan_cooldown: float = 0.6
 @export var debug_draw_path: bool = false
 
+var _locked_target: Plant = null
 var _path: Array[Vector3i] = []
 var _last_goal: Vector3i = Vector3i(2147483647, 2147483647, 2147483647)
 var _replan_timer: float = 0.0
@@ -62,9 +63,19 @@ func update(delta: float, current_heading: Vector3) -> Dictionary:
 	if sensor != null:
 		var me: Node3D = get_parent() as Node3D
 		if me != null and sensor.has_method("get_visible_target"):
-			var target: Plant = sensor.call("get_visible_target", me) as Plant
+			var target: Plant = null
+# If we already have one and it's still inside SenseArea, keep it.
+			if _locked_target != null and sensor.call("is_in_range", _locked_target):
+				target = _locked_target
+			else:
+				# Acquire a new one via FOV
+				target = sensor.call("get_visible_target", me) as Plant
+				if target != null:
+					_locked_target = target
+
 			# Clear path if no target
 			if target == null:
+				_locked_target = null
 				_path.clear()
 				_last_goal = Vector3i(2147483647, 2147483647, 2147483647)
 			else:
@@ -75,6 +86,7 @@ func update(delta: float, current_heading: Vector3) -> Dictionary:
 					var neigh := terrain.neighbors4(my_cell)
 					if my_cell == plant_cell or neigh.has(plant_cell):
 						var gained: int = target.consume()
+						_locked_target = null
 						print("[Brain] EAT +", gained)
 						_path.clear()
 						return {"desired_heading": h, "do_move": false}
@@ -83,7 +95,7 @@ func update(delta: float, current_heading: Vector3) -> Dictionary:
 				if terrain != null:
 					var start_cell: Vector3i = terrain.world_to_ground_cell(me.global_transform.origin)
 					var goal_cell: Vector3i = target.cell
-					_replan_timer = maxf(_replan_timer - delta, 0.0)
+					_replan_timer = max(_replan_timer - delta, 0.0)
 					if _path.is_empty() or goal_cell != _last_goal or _replan_timer <= 0.0:
 						_path = GridPath.plan(start_cell, goal_cell, terrain)
 						_last_goal = goal_cell

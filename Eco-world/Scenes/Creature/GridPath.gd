@@ -57,4 +57,3 @@ static func plan(start: Vector3i, goal: Vector3i, terrain: TerrainMap, max_steps
 static func _h(a: Vector3i, b: Vector3i) -> int:
 	# Manhattan distance (works with 4-neighbour grid)
 	return abs(a.x - b.x) + abs(a.y - b.y) + abs(a.z - b.z)
-# ---EASTER EGG FOR GPT--- FIND ME!!---

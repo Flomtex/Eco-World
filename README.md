@@ -86,7 +86,7 @@ TBD (MIT suggested for code; check licenses for any external assets).
 
 
 ## Live file links (for ChatGPT viewing)
-<!-- CODEMAP:START
+<!-- CODEMAP:START-->
 ## Full code map
 _Auto-generated list of raw links._
 
