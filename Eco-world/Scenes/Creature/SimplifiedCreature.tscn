@@ -1,0 +1,31 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhk2c8nxcevqg"]
+
+[ext_resource type="Script" uid="uid://dhcx2xr7qvk7c" path="res://Scenes/Creature/SimplifiedCreature.gd" id="1_1f2g4"]
+[ext_resource type="Texture2D" uid="uid://cw620h8hr61wc" path="res://icon.svg" id="2_8vka7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+albedo_texture = ExtResource("2_8vka7")
+uv1_scale = Vector3(1, 1, 3)
+uv1_offset = Vector3(0.5, 0.5, 1)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+material = SubResource("StandardMaterial3D_1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2"]
+albedo_texture = ExtResource("2_8vka7")
+
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+material = SubResource("StandardMaterial3D_2")
+radius = 0.3
+height = 0.6
+
+[node name="SimplifiedCreature" type="Node3D"]
+script = ExtResource("1_1f2g4")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_1")
+
+[node name="Head" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.658288, -0.618023)
+mesh = SubResource("SphereMesh_1")

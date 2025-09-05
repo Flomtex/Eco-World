@@ -18,6 +18,7 @@ func place_on_cell(c: Vector3i, terrain: GridMap) -> void:
 	global_position = wp + Vector3(0, half_h + y_offset, 0)
 
 func _ready() -> void:
+	add_to_group("plants")  # Add to plants group for easy discovery
 	if not debug_snap_on_ready or terrain_map_path == NodePath():
 		return
 	var terrain := get_node(terrain_map_path)

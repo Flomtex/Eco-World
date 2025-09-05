@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Eco-World"
-run/main_scene="uid://prcehd0tx6av"
+run/main_scene="uid://ddkgm3dh2xfau"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
