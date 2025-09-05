@@ -48,6 +48,14 @@ func consume() -> int:
 func get_cell() -> Vector3i:
 	return grid_cell
 
+## Legacy property for backward compatibility
+@warning_ignore("unused_parameter")
+var cell: Vector3i:
+	get:
+		return grid_cell
+	set(value):
+		grid_cell = value
+
 ## Check if plant has been consumed
 func is_plant_consumed() -> bool:
 	return is_consumed
