@@ -1,89 +1,157 @@
 extends Node
-
 class_name CreatureMover
 
+## Handles creature movement, collision avoidance, and ground snapping.
+## Provides a clean interface for movement commands from AI systems.
+
+@export_group("Movement")
 @export var move_speed: float = 2.8
 @export var turn_speed: float = 4.0
-@export var lookahead: float = 0.75
-@export var sample_directions: int = 16
-@export var rng_seed: int = -1
 
-@onready var actor: Node3D = get_parent() as Node3D
-@onready var terrain: Node = get_tree().get_first_node_in_group("terrain")
+@export_group("Collision Avoidance")
+@export var lookahead_distance: float = 0.75
+@export var avoidance_samples: int = 16
 
-var heading: Vector3 = Vector3.FORWARD
-var rng := RandomNumberGenerator.new()
+@export_group("Randomization")
+@export var movement_seed: int = -1
 
+# Internal state
+var current_heading: Vector3 = Vector3.FORWARD
+var creature: Node3D
+var terrain: TerrainMap
+var rng: RandomNumberGenerator
 
 func _ready() -> void:
-	if rng_seed >= 0:
-		rng.seed = rng_seed
+	_initialize_dependencies()
+	_setup_random_generator()
+
+func _initialize_dependencies() -> void:
+	creature = get_parent() as Node3D
+	terrain = get_tree().get_first_node_in_group("terrain") as TerrainMap
+	
+	if not creature:
+		push_error("CreatureMover: Parent must be a Node3D")
+	if not terrain:
+		push_error("CreatureMover: TerrainMap not found in 'terrain' group")
+
+func _setup_random_generator() -> void:
+	rng = RandomNumberGenerator.new()
+	if movement_seed >= 0:
+		rng.seed = movement_seed
 	else:
 		rng.randomize()
 
+## Initialize creature with random heading
 func setup_initial_heading() -> void:
-	var yaw0 := rng.randf_range(0.0, TAU)
-	heading = Vector3(sin(yaw0), 0.0, cos(yaw0)).normalized()
+	var random_yaw = rng.randf_range(0.0, TAU)
+	current_heading = Vector3(sin(random_yaw), 0.0, cos(random_yaw)).normalized()
 
+## Snap creature to nearest walkable ground cell if currently on unwalkable terrain
 func snap_to_ground_if_needed() -> void:
-	var start_cell: Vector3i = terrain.world_to_ground_cell(actor.global_transform.origin)
-	if not terrain.is_walkable_cell(start_cell):
-		for off in [
-			Vector3i(1,0,0), Vector3i(-1,0,0),
-			Vector3i(0,0,1), Vector3i(0,0,-1),
-			Vector3i(1,0,1), Vector3i(1,0,-1), Vector3i(-1,0,1), Vector3i(-1,0,-1)
-		]:
-			var c := Vector3i(start_cell.x + off.x, start_cell.y, start_cell.z + off.z)
-			if terrain.is_walkable_cell(c):
-				var snap: Vector3 = terrain.cell_to_world(c)
-				actor.global_transform.origin.x = snap.x
-				actor.global_transform.origin.z = snap.z
-				break
-
-func step(preferred_dir: Vector3, do_move: bool, delta: float) -> void:
-	var desired_dir := _pick_walkable_direction(preferred_dir)
-	if desired_dir == Vector3.ZERO:
+	if not terrain or not creature:
 		return
+		
+	var current_cell = terrain.world_to_ground_cell(creature.global_transform.origin)
+	
+	if terrain.is_walkable_cell(current_cell):
+		return  # Already on walkable terrain
+	
+	# Search nearby cells for walkable terrain
+	var offset_candidates = [
+		Vector3i(1, 0, 0), Vector3i(-1, 0, 0),
+		Vector3i(0, 0, 1), Vector3i(0, 0, -1),
+		Vector3i(1, 0, 1), Vector3i(1, 0, -1),
+		Vector3i(-1, 0, 1), Vector3i(-1, 0, -1)
+	]
+	
+	for offset in offset_candidates:
+		var test_cell = Vector3i(
+			current_cell.x + offset.x,
+			current_cell.y,
+			current_cell.z + offset.z
+		)
+		
+		if terrain.is_walkable_cell(test_cell):
+			var snap_position = terrain.cell_to_world(test_cell)
+			creature.global_transform.origin.x = snap_position.x
+			creature.global_transform.origin.z = snap_position.z
+			break
 
-	var current_yaw := atan2(heading.x, heading.z)
-	var target_yaw := atan2(desired_dir.x, desired_dir.z)
-	var new_yaw := _rotate_towards(current_yaw, target_yaw, turn_speed * delta)
-	heading = Vector3(sin(new_yaw), 0.0, cos(new_yaw)).normalized()
+## Execute movement step with desired heading
+func step_movement(desired_heading: Vector3, should_move: bool, delta: float) -> void:
+	if not creature or not terrain:
+		return
+	
+	# Find safe direction to move (with collision avoidance)
+	var safe_direction = _calculate_safe_direction(desired_heading)
+	
+	# Smoothly turn toward safe direction
+	current_heading = _rotate_heading_toward(current_heading, safe_direction, delta)
+	
+	# Update creature visual rotation (Godot forward = -Z)
+	var visual_yaw = atan2(current_heading.x, current_heading.z) + PI
+	creature.rotation.y = visual_yaw
+	
+	# Move if requested and safe to do so
+	if should_move:
+		var movement_vector = current_heading * move_speed * delta
+		var next_position = creature.global_transform.origin + movement_vector
+		
+		if terrain.is_walkable_world(next_position):
+			creature.global_transform.origin = next_position
 
-	# Face travel direction (Godot forward = -Z)
-	var face_yaw := atan2(heading.x, heading.z) + PI
-	actor.rotation.y = face_yaw
+## Get current movement heading
+func get_heading() -> Vector3:
+	return current_heading
 
-	if do_move:
-		var step_vec := heading * move_speed * delta
-		var next_pos := actor.global_transform.origin + step_vec
-		if _is_pos_walkable(next_pos):
-			actor.global_transform.origin = next_pos
+## Calculate a safe movement direction using collision avoidance
+func _calculate_safe_direction(preferred_direction: Vector3) -> Vector3:
+	if not terrain:
+		return preferred_direction
+	
+	# Test if preferred direction is safe
+	if _is_direction_safe(preferred_direction):
+		return preferred_direction.normalized()
+	
+	# Use sampling to find safe alternative direction
+	return _find_safe_direction_by_sampling(preferred_direction)
 
-func _pick_walkable_direction(preferred: Vector3) -> Vector3:
-	var fwd := actor.global_transform.origin + preferred.normalized() * lookahead
-	if _is_pos_walkable(fwd):
-		return preferred.normalized()
+func _is_direction_safe(direction: Vector3) -> bool:
+	var test_position = creature.global_transform.origin + direction.normalized() * lookahead_distance
+	return terrain.is_walkable_world(test_position)
 
-	var best_dir := Vector3.ZERO
-	var best_dot := -1.0
-	var start_angle := rng.randf_range(0.0, TAU)
-	for i in range(sample_directions):
-		var t := float(i) / float(max(1, sample_directions))
-		var ang := start_angle + t * TAU
-		var dir := Vector3(sin(ang), 0.0, cos(ang))
-		var probe := actor.global_transform.origin + dir * lookahead
-		if _is_pos_walkable(probe):
-			var d := dir.dot(preferred.normalized())
-			if d > best_dot:
-				best_dot = d
-				best_dir = dir
-	return best_dir.normalized()
+func _find_safe_direction_by_sampling(preferred_direction: Vector3) -> Vector3:
+	var best_direction = Vector3.FORWARD  # Fallback direction
+	var best_alignment = -1.0
+	
+	# Sample directions around preferred direction
+	var start_angle = rng.randf_range(0.0, TAU)
+	
+	for i in range(avoidance_samples):
+		var sample_progress = float(i) / float(max(1, avoidance_samples))
+		var sample_angle = start_angle + sample_progress * TAU
+		
+		var sample_direction = Vector3(sin(sample_angle), 0.0, cos(sample_angle))
+		
+		if _is_direction_safe(sample_direction):
+			var alignment = sample_direction.dot(preferred_direction.normalized())
+			if alignment > best_alignment:
+				best_alignment = alignment
+				best_direction = sample_direction
+	
+	return best_direction
 
-func _is_pos_walkable(world_pos: Vector3) -> bool:
-	return terrain.is_walkable_world(world_pos)
+func _rotate_heading_toward(current: Vector3, target: Vector3, delta: float) -> Vector3:
+	var current_yaw = atan2(current.x, current.z)
+	var target_yaw = atan2(target.x, target.z)
+	
+	var yaw_difference = _wrap_angle(target_yaw - current_yaw)
+	var max_rotation = turn_speed * delta
+	
+	yaw_difference = clamp(yaw_difference, -max_rotation, max_rotation)
+	var new_yaw = current_yaw + yaw_difference
+	
+	return Vector3(sin(new_yaw), 0.0, cos(new_yaw)).normalized()
 
-func _rotate_towards(a: float, b: float, max_step: float) -> float:
-	var diff := wrapf(b - a, -PI, PI)
-	diff = clamp(diff, -max_step, max_step)
-	return a + diff
+func _wrap_angle(angle: float) -> float:
+	return fmod(angle + PI, TAU) - PI
