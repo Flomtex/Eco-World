@@ -34,6 +34,11 @@ func _physics_process(delta: float) -> void:
 		_wander(delta)
 	
 	_move(delta)
+	
+	# Die if energy reaches 0
+	if energy <= 0:
+		print("Creature died of starvation")
+		queue_free()
 
 func _seek_food(delta: float) -> void:
 	# Find nearest plant if we don't have a target

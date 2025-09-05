@@ -1,0 +1,34 @@
+[gd_scene load_steps=8 format=3 uid="uid://b8hs9kx2cv4gn"]
+
+[ext_resource type="Script" uid="uid://cr7x5b6md8qyf" path="res://Scenes/Creature/Species/Herbivore.gd" id="1_herb"]
+[ext_resource type="Texture2D" uid="uid://cw620h8hr61wc" path="res://icon.svg" id="2_8vka7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1"]
+albedo_texture = ExtResource("2_8vka7")
+albedo_color = Color(0.5, 1, 0.5, 1)
+uv1_scale = Vector3(1, 1, 3)
+uv1_offset = Vector3(0.5, 0.5, 1)
+uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_1"]
+size = Vector3(0.8, 0.8, 0.8)
+material = SubResource("StandardMaterial3D_1")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2"]
+albedo_texture = ExtResource("2_8vka7")
+albedo_color = Color(0.3, 0.8, 0.3, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_1"]
+material = SubResource("StandardMaterial3D_2")
+radius = 0.25
+height = 0.5
+
+[node name="Herbivore" type="Node3D"]
+script = ExtResource("1_herb")
+
+[node name="Body" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_1")
+
+[node name="Head" type="MeshInstance3D" parent="Body"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.5)
+mesh = SubResource("SphereMesh_1")

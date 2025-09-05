@@ -10,8 +10,9 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if ecosystem:
 		var stats = ecosystem.get_ecosystem_stats()
-		text = "Creatures: %d\nPlants: %d\nTerrain: %d cells" % [
-			stats.creatures,
+		text = "Herbivores: %d\nCarnivores: %d\nPlants: %d\nTerrain: %d cells" % [
+			stats.herbivores,
+			stats.carnivores,
 			stats.plants, 
 			stats.terrain_cells
 		]
